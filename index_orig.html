@@ -1,0 +1,196 @@
+<html>
+<head>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+<script language ="javascript" >
+
+$(document).ready(function(){
+   loadTopicsDropDown();
+   //initialise();
+   //getPhotos('time');
+   getPhotosWithTags();
+   
+	$(document).on('hover', 'a', function() {
+	alert("temp");
+	});
+	//$('gallery ul li a').mouseleave(function() {
+	/* Hide tooltip */
+	//});
+
+});
+
+/*
+$( "#gallery ul li a" ).hover(function() {alert("hey");
+  $( this ).fadeOut( 100 );
+  $( this ).fadeIn( 500 );
+});*/
+
+function overImg(imgIdx){
+	
+	//if (over)
+	//	return;
+	//alert(images.items[imgIdx].title);
+	
+	$("#popupParis").popup('open');
+	
+	//$( "#bigImg img" ).src();
+	var imgSrc = images.items[imgIdx].media.m;
+	imgSrc = imgSrc.replace("_m.jpg", ".jpg"); 
+	/*$("#bigImg img").attr("src", imgSrc);
+	$( "#bigImg span" ).text(images.items[imgIdx].title);
+	over = true;*/
+	
+	$("#popup #flickrlink").attr("href", images.items[imgIdx].link);
+	$("#popup span.desc").text(images.items[imgIdx].title);
+	$("#popup img").attr("src", imgSrc);
+	$("#popup").popup('open');
+	
+}
+
+/*
+function outImg(){	
+	//if (!over)
+		//return;
+	$("#bigImg img").attr("src", '');
+	$( "#bigImg span" ).text('');
+	over = false;
+	
+}*/
+
+var images;
+var over = false;
+
+function getPhotos(tags){
+	//var url = "http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=YOURAPIKEYHERE&tags=yokota+air+base&safe_search=1&per_page=20";
+	$( "#gallery ul" ).empty();
+	var url = "http://api.flickr.com/services/feeds/photos_public.gne?lang=en-us&format=json&id=139185935@N04&tags=" + tags;
+	renderToHTML(url);
+	
+	var url2 = "http://api.flickr.com/services/feeds/photos_public.gne?lang=en-us&format=json&group_id=1959874@N20&tags=p52_" + tags;
+	//https://api.flickr.com/services/rest/?format=json&method=flickr.photos.search&group_id=1959874@N20&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tags=p52b9b545d8e702dd0aaefe231a06b1ce46
+	renderToHTML(url2);
+	
+}
+
+function renderToHTML(url){
+	$.getJSON(url + "&format=json&jsoncallback=?", function(data){
+	    images = data;
+	    $.each(data.items, function(i,item){
+		var title = item.title;
+		var img = item.media.m;
+		var html = '<li><a href="javascript:overImg(' + i + ')" data-rel="popup" data-position-to="window"  data-transition="fade"><img src="'+ img +'"  class="popphoto" /></a></li>' ;
+		$( "#gallery ul" ).append( $(html ) );			
+	    });	 
+	});
+}
+
+function loadTopicsDropDown(){
+	var topics =  ["Time", "Your Everyday", "Out of Focus", "Shadows", "Morning", "Unbalanced", "Love", "Outtake", "Black & White", "Self-Portrait", "Texture", "Silhouette", "Technology", "Hidden", "Far Away", "Water", "Framed", "Sky", "Laughter", "Nature", "Family", "Light", "Movement", "Below", "Food", "Haze", "Patriotic", "Animal", "Long Exposure", "Colourful", "Music", "Soft", "Hot", "Structure", "Bokeh", "Pattern", "Remember", "Above", "Negative Space", "Reflection", "Button", "Fall", "Together", "Disguise", "Macro", "Chaos", "Thankful", "Hobby", "Cold", "Sleep", "Details", "Joy"];
+	
+	for(var i = 0; i < topics.length; i++) {
+	    //Do things with things[i]
+	    $( "#topics" ).append($('<option>' + topics[i] + '</option>'));
+	}
+	
+	var week = getWeekOfYear();
+	$('#topics option')[week-1].selected = true;
+}
+
+function getPhotosWithTags(){
+	var tags = $('#topics :selected').text();
+        tags = tags.replace(" ", ","); 
+	tags = tags.replace("&", ""); 
+        tags = tags.replace("of", ""); 
+	//console.log(tags);
+	getPhotos(tags);
+}
+
+function getWeekOfYear () {
+	var date = new Date();
+        var target = new Date(date.valueOf()),
+            dayNumber = (date.getUTCDay() + 6) % 7,
+            firstThursday;
+
+        target.setUTCDate(target.getUTCDate() - dayNumber + 3);
+        firstThursday = target.valueOf();
+        target.setUTCMonth(0, 1);
+
+        if (target.getUTCDay() !== 4) {
+            target.setUTCMonth(0, 1 + ((4 - target.getUTCDay()) + 7) % 7);
+}
+
+        return Math.ceil((firstThursday - target) /  (7 * 24 * 3600 * 1000)) + 1;
+    }
+
+</script>
+<style>
+
+#gallery ul {
+	list-style-type: none;
+}
+
+#gallery ul li{
+	float: left;
+	xtext-align: center;
+	border: 0px solid #0000ff;
+	xwidth: 200px;
+}
+
+#gallery ul li img{
+	border: 0px solid #ffffff;
+}
+
+#gallery ul li img a:hover img {
+	border: 0px solid #0000ff;
+}
+
+#gallery ul li .desc {
+	text-align: center;
+ 	font-weight: normal;
+ 	margin: 0px;
+	font-size: 10px;
+	display: block;
+}
+
+#gallery ul li .desc a {
+	text-decoration: none;
+}
+
+/*
+#bigImg{
+	position: absolute; 
+	z-index: 1;
+}
+
+#bigImg img{
+	position: absolute; 
+	z-index: 2;
+}
+
+#bigImg span{
+	position: relative; 
+	top: -10px; 
+	z-index: 3;
+}*/
+</style>
+</head>
+<body>
+	<div>
+		<select id="topics" onchange="javascript:getPhotosWithTags();"></select>
+		<br />
+		
+		<div id="gallery">
+			<ul>
+			</ul>
+		</div>	
+		
+		<div data-role="popup" id="popup" data-overlay-theme="b" data-theme="b" data-corners="false">
+		    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+		    <a id="flickrlink" target="_blank"><img class="popphoto" /><span style="display: block" class="desc" /></a>
+		</div>
+	</div>
+	
+</body>
+</html>

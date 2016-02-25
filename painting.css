@@ -1,0 +1,178 @@
+body { background-color: #fff; color: #333; }
+
+body, p, ol, ul, td {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size:   13px;
+  line-height: 18px;
+}
+
+pre {
+  background-color: #eee;
+  padding: 10px;
+  font-size: 11px;
+}
+
+a { color: #000; }
+a:visited { color: #666; }
+a:hover { color: #fff; background-color:#000; }
+
+
+table{
+	border-collapse: collapse;
+	border-spacing: 2px 2px;
+	border-width: 0px;
+	border-color: #A9A9A9;
+	border-style: groove;
+	margin: 0px 0px 0px 30px;
+
+}
+
+td{
+	padding: 4px 10px 4px 10px;
+	border-spacing: 2px;
+	border-width: 1px;
+	border-color: #A9A9A9;
+	border-style: inset;;
+	background-color: #F0FFFF;
+	
+}
+
+th{
+	padding: 10px;
+	border-spacing: 10px;
+	border-width: 1px;
+	border-color: white;
+	border-style: inset;
+	background-color: #A9A9A9;
+	color: white;
+	
+}
+
+p { 
+	font: 9pt/17pt georgia; 
+	margin-top: 0px; 
+	text-align: justify;
+	}
+	
+	h1 { 
+	font:  bold 22px "Times New Roman";
+	margin: 0px 0px 10px 20px;
+
+	}
+h2 { 
+	font: normal 12pt georgia; 
+	letter-spacing: 1px; 
+	margin-bottom: 20px; 
+	color: blue;
+	margin-left: 220px;
+	}
+h3 { 
+	font: italic normal 12pt georgia; 
+	letter-spacing: 1px; 
+	margin-bottom: 0px; 
+	color: #7D775C;
+	}
+	
+a:link { 
+	font-weight: bold; 
+	text-decoration: none; 
+	color: #0000ff;
+	}
+a:visited { 
+	font-weight: bold; 
+	text-decoration: none; 
+	color: #0000ff;
+	}
+a:hover, a:active { 
+	text-decoration: underline; 
+	color: #ff0000;
+	background-color: white;
+	}
+	
+	
+.menu{
+	 margin: 0px 20px 0px 0px;
+	 padding: 2px 2px 2px 2px;
+}
+
+
+.menu_ext a{
+	 margin: 0px 20px 0px 0px;
+	 padding: 2px 2px 2px 2px;
+}
+
+div.painting{
+	float: left;
+	margin: 2px;
+	text-align: center;
+	border: 1px solid #0000ff;
+}
+
+div.painting img{
+	margin: 3px;
+	border: 1px solid #ffffff;
+}
+
+div.painting a:hover img {
+	border: 1px solid #0000ff;
+}
+
+div.paintingTxt {
+	text-align: center;
+ 	font-weight: normal;
+ 	width: 170px;
+	height: 30px;
+ 	margin: 2px;
+	font-size: smaller;
+}
+
+div.explanation {
+	margin: 30px;
+}
+
+div.homePainting{
+	margin-left: 50px;
+	margin-top: 50px;
+}
+
+div.homePageText{
+	
+	width: 500px;
+	font-size: larger;
+	
+}
+
+div.homePageContact{
+
+	margin-top: 50px;
+	width: 500px;
+	font-size: larger;
+}
+
+div.homePageRight{
+	margin: 50px 0px 30px 80px;
+	float: left;
+	
+}
+
+div.link {
+	float: right;
+	margin: 0px 50px 0px 0px;
+}
+
+div.oneText{
+	
+	margin: 30px;
+	width: 300px;
+	font-size: larger;
+	float: left;
+	
+}
+
+div.oneContact{
+
+	margin: 30px;
+	width: 300px;
+	font-size: larger;
+	float: left;r;
+}
