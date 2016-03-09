@@ -1,0 +1,32 @@
+
+.bannerimg {
+	max-width: 100%;
+	height: auto;
+}
+
+.container #menu {	
+	padding-bottom: 20px;
+	border-bottom: solid grey 3px;
+}
+
+.container #menu ul {	
+	list-style-type: none;
+    margin: 20px 0px 0 70px;
+    padding: 0;
+}
+	
+.container #menu ul li{
+	color: orange;
+	font-weight: bold;
+	padding-right: 15px;
+	display: inline;
+}
+
+.container #menu ul li a{
+	color: orange;
+	text-decoration: none;
+}
+
+.container #menu ul li a:hover{
+	color: #D2691E;
+}

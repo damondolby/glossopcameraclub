@@ -1,6 +1,6 @@
 <html>
 <head>
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/git/jquery.mobile-git.css">
 <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
@@ -12,9 +12,9 @@ $(document).ready(function(){
    //getPhotos('time');
    getPhotosWithTags();
    
-	$(document).on('hover', 'a', function() {
+	/*$(document).on('hover', 'a', function() {
 	alert("temp");
-	});
+	});*/
 	//$('gallery ul li a').mouseleave(function() {
 	/* Hide tooltip */
 	//});
@@ -28,64 +28,68 @@ $( "#gallery ul li a" ).hover(function() {alert("hey");
 });*/
 
 function overImg(imgIdx){
-	
-	//if (over)
-	//	return;
-	//alert(images.items[imgIdx].title);
-	
+		
 	$("#popupParis").popup('open');
+		
+	var topicid = $('#topics option:selected').val();	
+	var item = photo_cache[topicid][imgIdx];
+	var imgSrc = "http://farm2.staticflickr.com/" + item.server + "/" + item.id + "_" + item.secret + ".jpg";	
+	var link = "http://www.flickr.com/photos/" + item.owner + "/" + item.id + "/";
 	
-	//$( "#bigImg img" ).src();
-	var imgSrc = images.items[imgIdx].media.m;
-	imgSrc = imgSrc.replace("_m.jpg", ".jpg"); 
-	/*$("#bigImg img").attr("src", imgSrc);
-	$( "#bigImg span" ).text(images.items[imgIdx].title);
-	over = true;*/
-	
-	$("#popup #flickrlink").attr("href", images.items[imgIdx].link);
-	$("#popup span.desc").text(images.items[imgIdx].title);
+	$("#popup #flickrlink").attr("href", link);
+	$("#popup span.desc").text(item.title);
 	$("#popup img").attr("src", imgSrc);
-	$("#popup").popup('open');
-	
+	$("#popup").popup('open');	
 }
 
-/*
-function outImg(){	
-	//if (!over)
-		//return;
-	$("#bigImg img").attr("src", '');
-	$( "#bigImg span" ).text('');
-	over = false;
-	
-}*/
-
-var images;
+var photo_cache = {};
+//var images;
 var over = false;
 
-function getPhotos(tags){
-	//var url = "http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=YOURAPIKEYHERE&tags=yokota+air+base&safe_search=1&per_page=20";
+//Cache calls from this client for 15 mins
+setInterval(function(){ photo_cache = {}; }, 900000);
+
+function getPhotos(tags){		
+	var topicid = $('#topics option:selected').val();	
+	
+	if (!photo_cache[topicid]){
+		var arr = photo_cache[topicid]= [];
+		//images = [];
+		
+		//Info
+		//https://www.flickr.com/services/api/flickr.photos.search.html
+		
+		//Glossop Camera Club Account
+		var url = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&user_id=139185935@N04&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tags=" + tags;
+		callURL(url, arr);
+		
+		//Glossop Camera Club Group
+		var url2 = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&group_id=1959874@N20&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tag_mode=all&tags=p52," + tags;
+		callURL(url2, arr);
+	}
+	
+	renderHTML(photo_cache[topicid]);
+}
+
+function callURL(url, arr){
+	//$.getJSON(url + "&format=json&jsoncallback=?", function(data){
+	$.getJSON(url + "&jsoncallback=?", function(data){
+	//$.getJSON(url, function(data){
+	    //images = data.photos.photo;
+	    //var arrayStart = arr.length;
+	    arr.push.apply(arr, data.photos.photo)	
+	    renderHTML(arr);
+	});
+}
+
+function renderHTML(arr){
 	$( "#gallery ul" ).empty();
-	var url = "http://api.flickr.com/services/feeds/photos_public.gne?lang=en-us&format=json&id=139185935@N04&tags=" + tags;
-	var src;
-	$.getJSON(url + "&format=json&jsoncallback=?", function(data){
-	    images = data;
-	    $.each(data.items, function(i,item){
+	$.each(arr, function(i,item){
 		var title = item.title;
-		var img = item.media.m;
-		//$( "#gallery ul" ).append( $( '<li><img src='+ img +' /><span class="desc"><a href=' + item.link + ' target="_blank" >' + title + '</a></span></li>' ) );
-		
-		//var html = '<li><a href=' + item.link + ' target="_blank" ><img src='+ img +' /><span class="desc">' + title + '</span></a></li>' ;
-		//var html = '<li><a href="javascript:overImg(' + i + ')" data-rel="popup" data-position-to="window"  data-transition="fade"><img src="'+ img +'"  class="popphoto" /><span class="desc">' + title + '</span></a></li>' ;
+		var img = "http://farm2.staticflickr.com/" + item.server + "/" + item.id + "_" + item.secret + "_m.jpg";
+		//var img = item.media.m;
 		var html = '<li><a href="javascript:overImg(' + i + ')" data-rel="popup" data-position-to="window"  data-transition="fade"><img src="'+ img +'"  class="popphoto" /></a></li>' ;
-		//var html = '<li onmouseover="overImg(' + i + ')" onmouseout="outImg()"><a href=' + item.link + ' target="_blank" ><img src='+ img +' /><span class="desc">' + title + '</span></a></li>' ;
-		$( "#gallery ul" ).append( $(html ) );
-		
-		
-	//	src = "http://farm"+ item.farm +".static.flickr.com/"+ item.server +"/"+ item.id +"_"+ item.secret +"_m.jpg";
-	//	$("<img/>").attr("src", src).appendTo("#images");
-	//	if ( i == 3 ) return false;
-	    });
-	 //alert(data);
+		$( "#gallery ul" ).append( $(html ) );			
 	});
 }
 
@@ -94,7 +98,11 @@ function loadTopicsDropDown(){
 	
 	for(var i = 0; i < topics.length; i++) {
 	    //Do things with things[i]
-	    $( "#topics" ).append($('<option>' + topics[i] + '</option>'));
+	    //$( "#topics" ).append($('<option>' + topics[i] + '</option>'));
+	    $('#topics').append($('<option>', {
+		    value: i,
+		    text: topics[i]
+		}));
 	}
 	
 	var week = getWeekOfYear();

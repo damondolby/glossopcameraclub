@@ -1,0 +1,30 @@
+<html>
+<head>
+	<link rel="stylesheet" href="style/main.css">
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script language ="javascript" >
+	$(function(){
+	    $("[data-load]").each(function(){
+		$(this).load($(this).data("load"), function(){
+		});
+	    });
+	})
+	</script>
+</head>
+<body>
+	<div id="main">
+		<div class"banner">
+			<img src="images/gcc_header.jpg" />
+		</div>
+		<div id="menu">
+			<ul>
+				<li><a href="home.html">Club</a></li>
+				<li><a href="meetings.html">Meetings</a></li>
+				<li><a href="competition.html">Competition</a></li>
+				<li><a href="gallery.html">Gallery</a></li>
+				<li><a href="p52.html">Project 52</a></li>
+			</ul>
+		</div>
+	</div><nav data-load="index.html"></nav>
+</body>
+</html>

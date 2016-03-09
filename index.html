@@ -1,200 +1,61 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
-<script language ="javascript" >
-
-$(document).ready(function(){
-   loadTopicsDropDown();
-   //initialise();
-   //getPhotos('time');
-   getPhotosWithTags();
-   
-	$(document).on('hover', 'a', function() {
-	alert("temp");
-	});
-	//$('gallery ul li a').mouseleave(function() {
-	/* Hide tooltip */
-	//});
-
-});
-
-/*
-$( "#gallery ul li a" ).hover(function() {alert("hey");
-  $( this ).fadeOut( 100 );
-  $( this ).fadeIn( 500 );
-});*/
-
-function overImg(imgIdx){
-		
-	$("#popupParis").popup('open');
-		
-	var topicid = $('#topics option:selected').val();	
-	var item = photo_cache[topicid][imgIdx];
-	var imgSrc = "http://farm2.staticflickr.com/" + item.server + "/" + item.id + "_" + item.secret + ".jpg";	
-	var link = "http://www.flickr.com/photos/" + item.owner + "/" + item.id + "/";
+	<meta charset="utf-8">
+	<title>Glossop Camera Club</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
 	
-	$("#popup #flickrlink").attr("href", link);
-	$("#popup span.desc").text(item.title);
-	$("#popup img").attr("src", imgSrc);
-	$("#popup").popup('open');	
-}
-
-var photo_cache = {};
-//var images;
-var over = false;
-
-function getPhotos(tags){		
-	var topicid = $('#topics option:selected').val();	
-	
-	if (!photo_cache[topicid]){
-		var arr = photo_cache[topicid]= [];
-		//images = [];
-		
-		//Info
-		//https://www.flickr.com/services/api/flickr.photos.search.html
-		
-		//Glossop Camera Club Account
-		var url = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&user_id=139185935@N04&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tags=" + tags;
-		callURL(url, arr);
-		
-		//Glossop Camera Club Group
-		var url2 = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&group_id=1959874@N20&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tag_mode=all&tags=p52," + tags;
-		callURL(url2, arr);
-	}
-	
-	renderHTML(photo_cache[topicid]);
-}
-
-function callURL(url, arr){
-	//$.getJSON(url + "&format=json&jsoncallback=?", function(data){
-	$.getJSON(url + "&jsoncallback=?", function(data){
-	//$.getJSON(url, function(data){
-	    //images = data.photos.photo;
-	    //var arrayStart = arr.length;
-	    arr.push.apply(arr, data.photos.photo)	
-	    renderHTML(arr);
-	});
-}
-
-function renderHTML(arr){
-	$( "#gallery ul" ).empty();
-	$.each(arr, function(i,item){
-		var title = item.title;
-		var img = "http://farm2.staticflickr.com/" + item.server + "/" + item.id + "_" + item.secret + "_m.jpg";
-		//var img = item.media.m;
-		var html = '<li><a href="javascript:overImg(' + i + ')" data-rel="popup" data-position-to="window"  data-transition="fade"><img src="'+ img +'"  class="popphoto" /></a></li>' ;
-		$( "#gallery ul" ).append( $(html ) );			
-	});
-}
-
-function loadTopicsDropDown(){
-	var topics =  ["Time", "Your Everyday", "Out of Focus", "Shadows", "Morning", "Unbalanced", "Love", "Outtake", "Black & White", "Self-Portrait", "Texture", "Silhouette", "Technology", "Hidden", "Far Away", "Water", "Framed", "Sky", "Laughter", "Nature", "Family", "Light", "Movement", "Below", "Food", "Haze", "Patriotic", "Animal", "Long Exposure", "Colourful", "Music", "Soft", "Hot", "Structure", "Bokeh", "Pattern", "Remember", "Above", "Negative Space", "Reflection", "Button", "Fall", "Together", "Disguise", "Macro", "Chaos", "Thankful", "Hobby", "Cold", "Sleep", "Details", "Joy"];
-	
-	for(var i = 0; i < topics.length; i++) {
-	    //Do things with things[i]
-	    $( "#topics" ).append($('<option>' + topics[i] + '</option>'));
-	}
-	
-	var week = getWeekOfYear();
-	$('#topics option')[week-1].selected = true;
-}
-
-function getPhotosWithTags(){
-	var tags = $('#topics :selected').text();
-        tags = tags.replace(" ", ","); 
-	tags = tags.replace("&", ""); 
-        tags = tags.replace("of", ""); 
-	//console.log(tags);
-	getPhotos(tags);
-}
-
-function getWeekOfYear () {
-	var date = new Date();
-        var target = new Date(date.valueOf()),
-            dayNumber = (date.getUTCDay() + 6) % 7,
-            firstThursday;
-
-        target.setUTCDate(target.getUTCDate() - dayNumber + 3);
-        firstThursday = target.valueOf();
-        target.setUTCMonth(0, 1);
-
-        if (target.getUTCDay() !== 4) {
-            target.setUTCMonth(0, 1 + ((4 - target.getUTCDay()) + 7) % 7);
-}
-
-        return Math.ceil((firstThursday - target) /  (7 * 24 * 3600 * 1000)) + 1;
-    }
-
-</script>
-<style>
-
-#gallery ul {
-	list-style-type: none;
-}
-
-#gallery ul li{
-	float: left;
-	xtext-align: center;
-	border: 0px solid #0000ff;
-	xwidth: 200px;
-}
-
-#gallery ul li img{
-	border: 0px solid #ffffff;
-}
-
-#gallery ul li img a:hover img {
-	border: 0px solid #0000ff;
-}
-
-#gallery ul li .desc {
-	text-align: center;
- 	font-weight: normal;
- 	margin: 0px;
-	font-size: 10px;
-	display: block;
-}
-
-#gallery ul li .desc a {
-	text-decoration: none;
-}
-
-/*
-#bigImg{
-	position: absolute; 
-	z-index: 1;
-}
-
-#bigImg img{
-	position: absolute; 
-	z-index: 2;
-}
-
-#bigImg span{
-	position: relative; 
-	top: -10px; 
-	z-index: 3;
-}*/
-</style>
+	<meta content="width=device-width; initial-scale=1.0; maximum-scale=1.0;  user-scalable=0;" name="viewport">
+	<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/skeleton.css">
+	<link rel="icon" type="image/png" href="images/favicon.png">
+	<link rel="stylesheet" href="style/main.css">
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script language ="javascript" >
+	$(function(){
+	    $("[data-load]").each(function(){
+		$(this).load($(this).data("load"), function(){
+		});
+	    });
+	})
+	</script>
 </head>
 <body>
-	<div>
-		<select id="topics" onchange="javascript:getPhotosWithTags();"></select>
-		<br />
-		
-		<div id="gallery">
-			<ul>
-			</ul>
-		</div>	
-		
-		<div data-role="popup" id="popup" data-overlay-theme="b" data-theme="b" data-corners="false">
-		    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-		    <a id="flickrlink" target="_blank"><img class="popphoto" /><span style="display: block" class="desc" /></a>
-		</div>
+
+  <div class="container">
+	<div id="banner">
+		<img class="bannerimg" src="images/gcc_header.jpg" />
 	</div>
-	
+	<div class="menuholder">
+		<ul id="nav">
+			<li><a href="home.html">Club</a></li>
+			<li><a href="meetings.html">Meetings</a></li>
+			<li><a href="competition.html">Competition</a></li>
+			<li><a href="gallery.html">Gallery</a></li>
+			<li><a href="p52.html">Project 52</a></li>
+		</ul>
+	</div>
+	<div class="rule"></div>
+    <div class="row">
+      <div class="one-half column" style="margin-top: 25%">
+        <h4>header</h4>
+        <p>test test test</p>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+	$("#nav").addClass("js").before('<div id="menu">&#9776;</div>');
+	$("#menu").click(function(){
+		$("#nav").toggle();
+	});
+	$(window).resize(function(){
+		if(window.innerWidth > 768) {
+			$("#nav").removeAttr("style");
+		}
+	});
+</script>
 </body>
 </html>
