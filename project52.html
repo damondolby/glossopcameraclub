@@ -11,17 +11,13 @@
 	<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="css/normalize.css">
 	<link rel="stylesheet" href="css/skeleton.css">
+	<link rel="stylesheet" href="css/flickr.css">
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/git/jquery.mobile-git.cssx">
 	<link rel="icon" type="image/png" href="images/favicon.png">
 	<link rel="stylesheet" href="style/main.css">
 	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script language ="javascript" >
-	$(function(){
-	    $("[data-load]").each(function(){
-		$(this).load($(this).data("load"), function(){
-		});
-	    });
-	})
-	</script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.jsx"></script>
+	<script src="js/flickr.js"></script>
 </head>
 <body>
 
@@ -41,22 +37,21 @@
     <div class="row">
       <div class="one-half column" style="margin-top: 5%">
         <h4>Glossop Camera Club</h4>
-        <p>Glossop Camera Club is a friendly local club for photographers of all abilities.</p>
-	<p>In 2016 the club will be undertaking the "Project 52" challenge and this will also drive our fortnightly meetings.
-		<a href="meetings.html">Click here for details and next meetings...</a></p>
+	<p>
+		<select id="topics" onchange="javascript:getPhotosWithTags();"></select>
+		<br />		
+		<div id="gallery">
+			<ul>
+			</ul>
+		</div>
+		
+		<div  id="popup">
+		    <a href="javascript:closePopUp();" class="close">X</a>
+		    <a id="flickrlink" target="_blank"><img class="popphoto" /><span style="display: block" class="desc" /></a>
+		</div>
+	</p>        
       </div>
     </div>
   </div>
-  <script type="text/javascript">
-	$("#nav").addClass("js").before('<div id="menu">&#9776;</div>');
-	$("#menu").click(function(){
-		$("#nav").toggle();
-	});
-	$(window).resize(function(){
-		if(window.innerWidth > 768) {
-			$("#nav").removeAttr("style");
-		}
-	});
-</script>
 </body>
 </html>

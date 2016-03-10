@@ -1,0 +1,36 @@
+#gallery ul {
+	list-style-type: none;
+}
+
+#gallery ul li{
+	float: left;
+	xtext-align: center;
+	border: 0px solid #0000ff;
+	xwidth: 200px;
+}
+
+#gallery ul li img{
+	border: 0px solid #ffffff;
+}
+
+#gallery ul li img a:hover img {
+	border: 0px solid #0000ff;
+}
+
+#gallery ul li .desc {
+	text-align: center;
+ 	font-weight: normal;
+ 	margin: 0px;
+	font-size: 10px;
+	display: block;
+}
+
+#gallery ul li .desc a {
+	text-decoration: none;
+}
+
+#popup {
+	position: absolute;
+	margin: auto;
+	
+}
