@@ -17,7 +17,22 @@ function overImg(imgIdx){
 	$("#popup span.desc").text(item.title);
 	$("#popup img").attr("src", imgSrc);
 	//$("#popup").popup('open');	
-	$("#popup").show();	
+	//$("#popup").show();	
+	
+	    $( "#popup" ).dialog({
+		    
+		      //autoOpen: false,
+		      show: {
+			effect: "blind",
+			duration: 1000
+		      },		      
+		
+		modal: true,
+		resizable: false,
+		height: 600,
+		width: 600
+	    });
+	
 	//$("body").css("background-color", "grey");
 	//$(".container").css("background-color", "blue");
 	//http://stackoverflow.com/questions/5533171/fade-background-image-in-and-out-with-jquery

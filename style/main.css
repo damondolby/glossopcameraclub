@@ -11,7 +11,7 @@ div.rule {
 ul {
 		width:100%;
 		list-style-type: none;
-		margin: 20px 0px 0 70px;
+		margin: 20px 0px 0 0px;
 		padding: 0;
 	}
 	li {
@@ -68,6 +68,11 @@ ul {
 			xpadding:4% 10%;
 		}
 	}
+	
+	#nav li.social {
+		float: right;
+	}
+	
 	@media screen and (min-width: 768px) {
 		#menu {
 			display: none;
