@@ -5,12 +5,15 @@
 #gallery ul li{
 	float: left;
 	xtext-align: center;
-	border: 0px solid #0000ff;
+	xborder: 1px solid #0000ff;
 	xwidth: 200px;
+	xheight: 200px;
 }
 
 #gallery ul li img{
-	border: 0px solid #ffffff;
+	xborder: 1px solid #ff0000;
+	xwidth: 75%;
+	xheight: 75%;
 }
 
 #gallery ul li img a:hover img {

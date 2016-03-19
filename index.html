@@ -11,16 +11,22 @@
 	<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="css/normalize.css">
 	<link rel="stylesheet" href="css/skeleton.css">
+	<link rel="stylesheet" href="css/flickr.css">
 	<link rel="icon" type="image/png" href="images/favicon.png">
 	<link rel="stylesheet" href="style/main.css">
 	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	
+	<script src="js/flickr.js"></script>
 	<script language ="javascript" >
 	$(function(){
 	    $("[data-load]").each(function(){
 		$(this).load($(this).data("load"), function(){
 		});
-	    });
+	    });	    
 	})
+	$(document).ready(function(){
+	   getRecentClubPhotos();
+	});
 	</script>
 </head>
 <body>
@@ -47,7 +53,18 @@
         <p>Glossop Camera Club is a friendly local club for photographers of all abilities.</p>
 	<p>In 2016 the club will be undertaking the "Project 52" challenge and this will also drive our fortnightly meetings.
 		<a href="meetings.html">Click here for details and next meetings...</a></p>
-      </div>
+      </div>      
+    </div>
+    <div>
+	<div id="gallery">
+		<ul>
+		</ul>
+	</div>
+	
+	<div  id="popup">
+	    <!--a href="javascript:closePopUp();" class="close">X</a-->
+	    <a id="flickrlink" target="_blank"><img class="popphoto" /><span style="display: block" class="desc" /></a>
+	</div>
     </div>
   </div>
   <script type="text/javascript">
