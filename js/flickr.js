@@ -92,8 +92,39 @@ function renderHTML(arr){
 		var title = item.title;
 		var img = "http://farm2.staticflickr.com/" + item.server + "/" + item.id + "_" + item.secret + "_m.jpg";
 		//var img = item.media.m;
-		var html = '<li><a href="javascript:overImg(' + i + ')" data-rel="popup" data-position-to="window"  data-transition="fade"><img src="'+ img +'"  class="popphoto" /></a></li>' ;
-		$( "#gallery ul" ).append( $(html ) );			
+		//var html = '<li><a href="javascript:overImg(' + i + ')"><img src="'+ img +'"  class="popphoto" /></a></li>' ;
+		//$( "#gallery ul" ).append( $(html ) );	
+		/*$( "#gallery" ).append( $('<div/>', {
+							    
+							    text: 'testadfkja;kldsfja;kdjf'
+							}
+							 .attr('text', 'tadfasdfext'); )
+						);	*/
+		
+		//$( "#gallery ul" ).append( $('<li>heyheyhey</li>') );
+		
+		/*$( "#gallery" ).append( $('<div/>', {
+							class: 'img'}
+								).append( $('<a/>', {
+									href: 'xxx'}).append( $('<img>', {
+										src: img})
+									).append( $('<div/>', {
+										class: 'desc',
+										text: 'desc goes here'})
+									))
+						);*/
+		
+		var html2 = '<div class="img">';
+		html2 = html2 + '<a href="javascript:overImg(' + i + ')">';
+		html2 = html2 + '<img src="' + img + '" alt="' + title	 + '" width="300" height="200">';
+		html2 = html2 + '</a>';
+		html2 = html2 + '<div class="desc">' + title + '</div>';
+		html2 = html2 + '</div>';
+		$( "#gallery" ).append( $(html2 ) );
+
+		/*
+		
+		*/
 	});
 }
 
