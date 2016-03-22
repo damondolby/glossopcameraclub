@@ -3,8 +3,8 @@ function overImg(imgIdx){
 		
 	//$("#popupParis").popup('open');
 		
-	var topicid = $('#topics option:selected').val();	
-	var item = photo_cache[topicid][imgIdx];
+	//var topicid = $('#topics option:selected').val();	
+	var item = photo_cache[current_cache][imgIdx];
 	var imgSrc = "http://farm2.staticflickr.com/" + item.server + "/" + item.id + "_" + item.secret + ".jpg";	
 	var link = "http://www.flickr.com/photos/" + item.owner + "/" + item.id + "/";
 	
@@ -41,12 +41,14 @@ function closePopUp(){
 var photo_cache = {};
 //var images;
 var over = false;
+var current_cache;
 
 //Cache calls from this client for 15 mins
 setInterval(function(){ photo_cache = {}; }, 900000);
 
 function getPhotos(tags){		
 	var topicid = $('#topics option:selected').val();	
+	current_cache = topicid;
 	
 	if (!photo_cache[topicid]){
 		var arr = photo_cache[topicid]= [];
@@ -63,12 +65,13 @@ function getPhotos(tags){
 		var url2 = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&group_id=1959874@N20&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tag_mode=all&tags=p52," + tags;
 		callURL(url2, arr);
 	}
-	
-	renderHTML(photo_cache[topicid]);
+		
+	//renderHTML(photo_cache[topicid]);
 }
 
-function getRecentClubPhotos(){
-	var url = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&group_id=1959874@N20&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tag_mode=all"
+function getRecentClubPhotos(noOfPics){
+	var url = "https://api.flickr.com/services/rest/?per_page=" + noOfPics + "&format=json&method=flickr.photos.search&group_id=1959874@N20&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tag_mode=all"
+	current_cache = url;
 	if (!photo_cache[url]){
 		var arr = photo_cache[url]= [];
 		callURL(url, arr);
@@ -87,7 +90,7 @@ function callURL(url, arr){
 }
 
 function renderHTML(arr){
-	$( "#gallery ul" ).empty();
+	$( "#gallery" ).empty();
 	$.each(arr, function(i,item){
 		var title = item.title;
 		var img = "http://farm2.staticflickr.com/" + item.server + "/" + item.id + "_" + item.secret + "_m.jpg";
