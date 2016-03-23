@@ -21,15 +21,15 @@
 	<script src="js/flickr.js"></script>
 	<script language ="javascript" >
 		$(document).ready(function(){
-		   //loadPhotos();
+		   loadPhotos();
 		   loadTopicsDropDown();
-		   //getPhotosWithTags();   
+		   getPhotosWithTags();   
 			$("#popup").hide();
 		});
 		
 		var allPhotos = [];
 		
-		/*function loadPhotos(){		
+		function loadPhotos(){		
 
 			//Glossop Camera Club Account
 			//var url = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&user_id=139185935@N04&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tags=" + tags;
@@ -38,24 +38,24 @@
 			
 			//Glossop Camera Club Group
 			var url2 = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&group_id=1959874@N20&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tag_mode=all&tags=p52&extras=tags";
-			callURL(url2, allPhotos, function (x) {  }));					
-		}*/
+			callURL(url2, allPhotos, function (x) {  });					
+		}
 		
-		/*function getPhotos(tags){
+		function getPhotos(tags){
 			var topicid = $('#topics option:selected').val();
 			var tagArr = [];
-			$.each(arr, function(i,item){				
+			$.each(allPhotos, function(i,item){			
 				
 				//var tags = item.tags;
 				
-				if (tags == item.tags){
-					tagArr.push.apply(tagArr, item);
-				}
-				
-			}
+				if (item.tags.indexOf(tags) > -1){
+					//tagArr.push.apply(tagArr, item);
+					tagArr.push(item);
+				}				
+			});
 			
 			renderHTML(tagArr);
-		}*/
+		}
 		
 		function getPhotosWithTags(){
 			var tags = $('#topics :selected').text();
