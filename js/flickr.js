@@ -46,7 +46,7 @@ var current_cache;
 //Cache calls from this client for 15 mins
 setInterval(function(){ photo_cache = {}; }, 900000);
 
-function getPhotos(tags){		
+/*function getPhotos(tags){		
 	var topicid = $('#topics option:selected').val();	
 	current_cache = topicid;
 	
@@ -58,35 +58,39 @@ function getPhotos(tags){
 		//https://www.flickr.com/services/api/flickr.photos.search.html
 		
 		//Glossop Camera Club Account
-		var url = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&user_id=139185935@N04&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tags=" + tags;
+		//var url = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&user_id=139185935@N04&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tags=" + tags;
+		var url = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&user_id=139185935@N04&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&extras=tags";
 		callURL(url, arr);
 		
 		//Glossop Camera Club Group
-		var url2 = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&group_id=1959874@N20&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tag_mode=all&tags=p52," + tags;
+		var url2 = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&group_id=1959874@N20&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tag_mode=all&tags=p52&extras=tags";
 		callURL(url2, arr);
 	}
 		
-	//renderHTML(photo_cache[topicid]);
-}
+	renderHTML(photo_cache[topicid]);
+}*/
 
 function getRecentClubPhotos(noOfPics){
 	var url = "https://api.flickr.com/services/rest/?per_page=" + noOfPics + "&format=json&method=flickr.photos.search&group_id=1959874@N20&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tag_mode=all"
 	current_cache = url;
 	if (!photo_cache[url]){
 		var arr = photo_cache[url]= [];
-		callURL(url, arr);
+		callURL(url, arr, renderHTML);
 	}
+	
 }
 
-function callURL(url, arr){
+function callURL(url, arr, callBack){
 	//$.getJSON(url + "&format=json&jsoncallback=?", function(data){
 	$.getJSON(url + "&jsoncallback=?", function(data){
 	//$.getJSON(url, function(data){
 	    //images = data.photos.photo;
-	    //var arrayStart = arr.length;
-	    arr.push.apply(arr, data.photos.photo)	
-	    renderHTML(arr);
+	    //var arrayStart = arr.length;		
+	    arr.push.apply(arr, data.photos.photo)		    
+		//renderHTML(arr);
+		callBack(arr);
 	});
+	
 }
 
 function renderHTML(arr){
@@ -129,31 +133,6 @@ function renderHTML(arr){
 		
 		*/
 	});
-}
-
-function loadTopicsDropDown(){
-	var topics =  ["Time", "Your Everyday", "Out of Focus", "Shadows", "Morning", "Unbalanced", "Love", "Outtake", "Black & White", "Self-Portrait", "Texture", "Silhouette", "Technology", "Hidden", "Far Away", "Water", "Framed", "Sky", "Laughter", "Nature", "Family", "Light", "Movement", "Below", "Food", "Haze", "Patriotic", "Animal", "Long Exposure", "Colourful", "Music", "Soft", "Hot", "Structure", "Bokeh", "Pattern", "Remember", "Above", "Negative Space", "Reflection", "Button", "Fall", "Together", "Disguise", "Macro", "Chaos", "Thankful", "Hobby", "Cold", "Sleep", "Details", "Joy"];
-	
-	for(var i = 0; i < topics.length; i++) {
-	    //Do things with things[i]
-	    //$( "#topics" ).append($('<option>' + topics[i] + '</option>'));
-	    $('#topics').append($('<option>', {
-		    value: i,
-		    text: topics[i]
-		}));
-	}
-	
-	var week = getWeekOfYear();
-	$('#topics option')[week-1].selected = true;
-}
-
-function getPhotosWithTags(){
-	var tags = $('#topics :selected').text();
-        tags = tags.replace(" ", ","); 
-	tags = tags.replace("&", ""); 
-        tags = tags.replace("of", ""); 
-	//console.log(tags);
-	getPhotos(tags);
 }
 
 function getWeekOfYear () {

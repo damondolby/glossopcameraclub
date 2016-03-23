@@ -12,21 +12,75 @@
 	<link rel="stylesheet" href="css/normalize.css">
 	<link rel="stylesheet" href="css/skeleton.css">
 	<link rel="stylesheet" href="css/flickr.css">
-	<link rel="stylesheet" href="http://code.jquery.com/mobile/git/jquery.mobile-git.cssx">
 	<link rel="icon" type="image/png" href="images/favicon.png">
 	<link rel="stylesheet" href="style/main.css">
 	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.jsx"></script>
 
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 	<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<script src="js/flickr.js"></script>
 	<script language ="javascript" >
 		$(document).ready(function(){
+		   //loadPhotos();
 		   loadTopicsDropDown();
-		   getPhotosWithTags();   
+		   //getPhotosWithTags();   
 			$("#popup").hide();
 		});
+		
+		var allPhotos = [];
+		
+		/*function loadPhotos(){		
+
+			//Glossop Camera Club Account
+			//var url = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&user_id=139185935@N04&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tags=" + tags;
+			var url = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&user_id=139185935@N04&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&extras=tags";
+			callURL(url, allPhotos, function (x) {  });
+			
+			//Glossop Camera Club Group
+			var url2 = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&group_id=1959874@N20&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tag_mode=all&tags=p52&extras=tags";
+			callURL(url2, allPhotos, function (x) {  }));					
+		}*/
+		
+		/*function getPhotos(tags){
+			var topicid = $('#topics option:selected').val();
+			var tagArr = [];
+			$.each(arr, function(i,item){				
+				
+				//var tags = item.tags;
+				
+				if (tags == item.tags){
+					tagArr.push.apply(tagArr, item);
+				}
+				
+			}
+			
+			renderHTML(tagArr);
+		}*/
+		
+		function getPhotosWithTags(){
+			var tags = $('#topics :selected').text();
+			tags = tags.replace(" ", ","); 
+			tags = tags.replace("&", ""); 
+			tags = tags.replace("of", ""); 
+			//console.log(tags);
+			getPhotos(tags);
+		}
+		
+		function loadTopicsDropDown(){
+			var topics =  ["Time", "Your Everyday", "Out of Focus", "Shadows", "Morning", "Unbalanced", "Love", "Outtake", "Black & White", "Self-Portrait", "Texture", "Silhouette", "Technology", "Hidden", "Far Away", "Water", "Framed", "Sky", "Laughter", "Nature", "Family", "Light", "Movement", "Below", "Food", "Haze", "Patriotic", "Animal", "Long Exposure", "Colourful", "Music", "Soft", "Hot", "Structure", "Bokeh", "Pattern", "Remember", "Above", "Negative Space", "Reflection", "Button", "Fall", "Together", "Disguise", "Macro", "Chaos", "Thankful", "Hobby", "Cold", "Sleep", "Details", "Joy"];
+			
+			for(var i = 0; i < topics.length; i++) {
+			    //Do things with things[i]
+			    //$( "#topics" ).append($('<option>' + topics[i] + '</option>'));
+			    $('#topics').append($('<option>', {
+				    value: i,
+				    text: topics[i]
+				}));
+			}
+			
+			var week = getWeekOfYear();
+			$('#topics option')[week-1].selected = true;
+		}
 
 	</script>
 </head>
