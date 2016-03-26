@@ -33,11 +33,11 @@
 
 			//Glossop Camera Club Account
 			//var url = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&user_id=139185935@N04&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tags=" + tags;
-			var url = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&user_id=139185935@N04&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&extras=tags";
+			var url = "https://api.flickr.com/services/rest/?per_page=500&format=json&method=flickr.photos.search&user_id=139185935@N04&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&extras=tags";
 			callURL(url, allPhotos, function (x) {  });
 			
 			//Glossop Camera Club Group
-			var url2 = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&group_id=1959874@N20&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tag_mode=all&tags=p52&extras=tags";
+			var url2 = "https://api.flickr.com/services/rest/?per_page=500&format=json&method=flickr.photos.search&group_id=1959874@N20&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tag_mode=all&tags=p52&extras=tags";
 			callURL(url2, allPhotos, function (x) {  });					
 		}
 		
@@ -47,23 +47,36 @@
 			$.each(allPhotos, function(i,item){			
 				
 				//var tags = item.tags;
+				var photoTags = item.tags.toLowerCase();
+
+				var found = 1;
+				var x;
+				for (x in tags) {
+				    if (photoTags.indexOf(tags[x]) == -1){
+					found = 0;
+				    }
+				}
 				
-				if (item.tags.indexOf(tags) > -1){
+				if (found){
 					//tagArr.push.apply(tagArr, item);
 					tagArr.push(item);
 				}				
 			});
 			
+			console.log(allPhotos.length);
+			//console.log('test');
+			
 			renderHTML(tagArr);
 		}
 		
 		function getPhotosWithTags(){
-			var tags = $('#topics :selected').text();
-			tags = tags.replace(" ", ","); 
-			tags = tags.replace("&", ""); 
-			tags = tags.replace("of", ""); 
+			var tags = $('#topics :selected').text().toLowerCase();			 
+			tags = tags.replace(" & ", ","); 
+			tags = tags.replace(" of ", ","); 
+			tags = tags.replace("-", ","); 
+			tags = tags.replace(" ", ",");
 			//console.log(tags);
-			getPhotos(tags);
+			getPhotos(tags.split(","));
 		}
 		
 		function loadTopicsDropDown(){
@@ -119,6 +132,7 @@
 		    <!--a href="javascript:closePopUp();" class="close">X</a-->
 		    <a id="flickrlink" target="_blank"><img class="popphoto" /><span style="display: block" class="desc" /></a>
 		</div>
+		<div id="loading">Loading...</div>
       </div>
   </div>
 </body>

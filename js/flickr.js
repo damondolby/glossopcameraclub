@@ -1,10 +1,22 @@
+$.ajaxSetup({
+    beforeSend:function(){
+        // show gif here, eg:
+        $("#loading").show();
+    },
+    complete:function(){
+        // hide gif here, eg:
+        $("#loading").hide();
+    }
+});
+
 
 function overImg(imgIdx){
 		
 	//$("#popupParis").popup('open');
 		
 	//var topicid = $('#topics option:selected').val();	
-	var item = photo_cache[current_cache][imgIdx];
+	//var item = photo_cache[current_cache][imgIdx];
+	var item = currently_displayed[imgIdx];
 	var imgSrc = "http://farm2.staticflickr.com/" + item.server + "/" + item.id + "_" + item.secret + ".jpg";	
 	var link = "http://www.flickr.com/photos/" + item.owner + "/" + item.id + "/";
 	
@@ -35,6 +47,9 @@ function overImg(imgIdx){
 
 function closePopUp(){
 	$("#popup").hide();
+	$("#popup #flickrlink").attr("href", '');
+	$("#popup span.desc").text('');
+	$("#popup img").attr("src", '');
 	//$("body").css("background-color", "white");
 }
 
@@ -42,6 +57,7 @@ var photo_cache = {};
 //var images;
 var over = false;
 var current_cache;
+var currently_displayed = [];
 
 //Cache calls from this client for 15 mins
 setInterval(function(){ photo_cache = {}; }, 900000);
@@ -81,20 +97,31 @@ function getRecentClubPhotos(noOfPics){
 }
 
 function callURL(url, arr, callBack){
-	//$.getJSON(url + "&format=json&jsoncallback=?", function(data){
-	$.getJSON(url + "&jsoncallback=?", function(data){
-	//$.getJSON(url, function(data){
-	    //images = data.photos.photo;
-	    //var arrayStart = arr.length;		
-	    arr.push.apply(arr, data.photos.photo)		    
-		//renderHTML(arr);
+	
+	/*$.getJSON(url + "&jsoncallback=?", function(data){		
+	    arr.push.apply(arr, data.photos.photo)		    	
 		callBack(arr);
+	});*/	
+	
+	$.ajax({
+	    type: 'GET',
+	    //url: url + "&jsoncallback=?",
+	    //url: url,
+	    url: url + "&nojsoncallback=1",
+	    dataType: 'json',
+	    success: function(data){		
+			    arr.push.apply(arr, data.photos.photo)		    	
+				callBack(arr);
+			},
+	    data: {},
+	    async: false
 	});
 	
 }
 
 function renderHTML(arr){
 	$( "#gallery" ).empty();
+	currently_displayed = arr;
 	$.each(arr, function(i,item){
 		var title = item.title;
 		var img = "http://farm2.staticflickr.com/" + item.server + "/" + item.id + "_" + item.secret + "_m.jpg";
