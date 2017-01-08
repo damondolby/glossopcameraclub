@@ -2,29 +2,16 @@
 <html lang="en">
 <head>
 
-	<meta charset="utf-8">
-	<title>Glossop Camera Club</title>
-	<meta name="description" content="">
-	<meta name="author" content="">
+	<script src="js/utils.js"></script>
+	<script language ="javascript" >getHeader()</script>
 	
-	<meta content="width=device-width; initial-scale=1.0; maximum-scale=1.0;  user-scalable=0;" name="viewport">
-	<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="css/normalize.css">
-	<link rel="stylesheet" href="css/skeleton.css">
-	<link rel="stylesheet" href="css/flickr.css">
-	<link rel="stylesheet" href="http://code.jquery.com/mobile/git/jquery.mobile-git.cssx">
-	<link rel="icon" type="image/png" href="images/favicon.png">
-	<link rel="stylesheet" href="style/main.css">
-	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.jsx"></script>
-
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-	<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-	<script src="js/flickr.js"></script>
 	<script language ="javascript" >
 		$(document).ready(function(){
-		   loadTopicsDropDown();
-		   getPhotosWithTags();   
+			cat_name = 'p52';
+			days_per_cat = 7;
+			var topics =  ["Time", "Your Everyday", "Out of Focus", "Shadows", "Morning", "Unbalanced", "Love", "Outtake", "Black & White", "Self-Portrait", "Texture", "Silhouette", "Technology", "Hidden", "Far Away", "Water", "Framed", "Sky", "Laughter", "Nature", "Family", "Light", "Movement", "Below", "Food", "Haze", "Patriotic", "Animal", "Long Exposure", "Colourful", "Music", "Soft", "Hot", "Structure", "Bokeh", "Pattern", "Remember", "Above", "Negative Space", "Reflection", "Button", "Fall", "Together", "Disguise", "Macro", "Chaos", "Thankful", "Hobby", "Cold", "Sleep", "Details", "Joy"];		
+			loadTopicsDropDown(topics);
+			getPhotosWithTags();   
 			$("#popup").hide();
 		});
 
@@ -37,22 +24,14 @@
 		<img class="bannerimg" src="images/gcc_header.jpg" />
 	</div>
 	<div class="menuholder">
-		<ul id="nav">
-			<li><a href="index.html">Club</a></li>
-			<li><a href="meetings.html">Meetings</a></li>
-			<li><a href="gallery.html">Gallery</a></li>
-			<li><a href="project52.html">Project 52</a></li>
-			
-			<li class="social"><a href="https://www.facebook.com/groups/Glossopcameraclub/" target="_blank"><img src="images/facebook.png" width="30px" height="30px" /></a></li>
-			<li class="social"><a href="https://twitter.com/GlsspCameraClub" target="_blank"><img src="images/twitter.png" width="30px" height="30px" /></a></li>
-			<li class="social"><a href="https://www.flickr.com/groups/1959874@N20/" target="_blank"><img src="images/flickr.png" width="30px" height="30px" /></a></li>
-		</ul>		
+		<script language="javascript">getMenu();</script>			
 	</div>
 	<div class="rule"></div>
     <div class="row">
-      <div class="one-half column" style="margin-top: 5%">
-        <h4>Glossop Camera Club</h4>
-	<p></p>        
+      <div  style="margin-top: 5%">
+        <h4>Project 52</h4>
+	<p>This is the project some GCC members did in 2016 (one category per week - see the drop down below).
+		<br /> Feel free to do it in 2017 or start it any time (add to GCC Flickr <a href="https://www.flickr.com/groups/1959874@N20/" target="_about">Group</a>, add tags: "p52" and that weeks topic.</p>        
       </div>      
     </div>
     <div>

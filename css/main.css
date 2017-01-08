@@ -20,8 +20,9 @@ ul {
 		xborder-right: 1px solid #eee;
 		color: orange;
 		font-weight: bold;
-		padding-right: 15px;
+		xpadding-right: 15px;
 		display: inline;
+		font-size:0.95em;
 	}
 	li:last-child {
 		border-right:none;
@@ -31,7 +32,7 @@ ul {
 		xwidth:80%;
 		xbackground:#ddd;
 		xpadding:4% 10%;
-		font-size:1.35em;
+		
 		xtext-decoration: none;
 		color: orange;
 		text-decoration: none;
@@ -39,6 +40,13 @@ ul {
 	ul li a:hover{
 		color: #D2691E;
 	}
+	
+	li span {
+		color: black;
+		margin: 0 10px 0 10px;
+		vertical-align: text-bottom;
+	}
+	
 	@media screen and (max-width: 768px) {
 		#menu {
 			width:1.4em;
@@ -78,3 +86,8 @@ ul {
 			display: none;
 		}
 	}
+	
+.regMsg{
+	color: red;
+	font-weight: bold;
+}

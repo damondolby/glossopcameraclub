@@ -1,9 +1,8 @@
 
+var cat_name, days_per_cat;
+
 function overImg(imgIdx){
 		
-	//$("#popupParis").popup('open');
-		
-	//var topicid = $('#topics option:selected').val();	
 	var item = photo_cache[current_cache][imgIdx];
 	var imgSrc = "http://farm2.staticflickr.com/" + item.server + "/" + item.id + "_" + item.secret + ".jpg";	
 	var link = "http://www.flickr.com/photos/" + item.owner + "/" + item.id + "/";
@@ -11,8 +10,6 @@ function overImg(imgIdx){
 	$("#popup #flickrlink").attr("href", link);
 	$("#popup span.desc").text(item.title);
 	$("#popup img").attr("src", imgSrc);
-	//$("#popup").popup('open');	
-	//$("#popup").show();	
 	
 	    $( "#popup" ).dialog({
 		    
@@ -27,10 +24,6 @@ function overImg(imgIdx){
 		height: 600,
 		width: 600
 	    });
-	
-	//$("body").css("background-color", "grey");
-	//$(".container").css("background-color", "blue");
-	//http://stackoverflow.com/questions/5533171/fade-background-image-in-and-out-with-jquery
 }
 
 function closePopUp(){
@@ -62,7 +55,7 @@ function getPhotos(tags){
 		callURL(url, arr);
 		
 		//Glossop Camera Club Group
-		var url2 = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&group_id=1959874@N20&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tag_mode=all&tags=p52," + tags;
+		var url2 = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&group_id=1959874@N20&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tag_mode=all&tags=" + cat_name + "," + tags;
 		callURL(url2, arr);
 	}
 		
@@ -79,11 +72,7 @@ function getRecentClubPhotos(noOfPics){
 }
 
 function callURL(url, arr){
-	//$.getJSON(url + "&format=json&jsoncallback=?", function(data){
 	$.getJSON(url + "&jsoncallback=?", function(data){
-	//$.getJSON(url, function(data){
-	    //images = data.photos.photo;
-	    //var arrayStart = arr.length;
 	    arr.push.apply(arr, data.photos.photo)	
 	    renderHTML(arr);
 	});
@@ -91,31 +80,14 @@ function callURL(url, arr){
 
 function renderHTML(arr){
 	$( "#gallery" ).empty();
+	
+	if (arr.length == 0){
+		$( "#gallery" ).append( $("<div class='regMsg'>No photos yet!</div>" ) );
+	}
+	
 	$.each(arr, function(i,item){
 		var title = item.title;
 		var img = "http://farm2.staticflickr.com/" + item.server + "/" + item.id + "_" + item.secret + "_m.jpg";
-		//var img = item.media.m;
-		//var html = '<li><a href="javascript:overImg(' + i + ')"><img src="'+ img +'"  class="popphoto" /></a></li>' ;
-		//$( "#gallery ul" ).append( $(html ) );	
-		/*$( "#gallery" ).append( $('<div/>', {
-							    
-							    text: 'testadfkja;kldsfja;kdjf'
-							}
-							 .attr('text', 'tadfasdfext'); )
-						);	*/
-		
-		//$( "#gallery ul" ).append( $('<li>heyheyhey</li>') );
-		
-		/*$( "#gallery" ).append( $('<div/>', {
-							class: 'img'}
-								).append( $('<a/>', {
-									href: 'xxx'}).append( $('<img>', {
-										src: img})
-									).append( $('<div/>', {
-										class: 'desc',
-										text: 'desc goes here'})
-									))
-						);*/
 		
 		var html2 = '<div class="img">';
 		html2 = html2 + '<a href="javascript:overImg(' + i + ')">';
@@ -124,19 +96,12 @@ function renderHTML(arr){
 		html2 = html2 + '<div class="desc">' + title + '</div>';
 		html2 = html2 + '</div>';
 		$( "#gallery" ).append( $(html2 ) );
-
-		/*
-		
-		*/
 	});
 }
 
-function loadTopicsDropDown(){
-	var topics =  ["Time", "Your Everyday", "Out of Focus", "Shadows", "Morning", "Unbalanced", "Love", "Outtake", "Black & White", "Self-Portrait", "Texture", "Silhouette", "Technology", "Hidden", "Far Away", "Water", "Framed", "Sky", "Laughter", "Nature", "Family", "Light", "Movement", "Below", "Food", "Haze", "Patriotic", "Animal", "Long Exposure", "Colourful", "Music", "Soft", "Hot", "Structure", "Bokeh", "Pattern", "Remember", "Above", "Negative Space", "Reflection", "Button", "Fall", "Together", "Disguise", "Macro", "Chaos", "Thankful", "Hobby", "Cold", "Sleep", "Details", "Joy"];
+function loadTopicsDropDown(topics){
 	
 	for(var i = 0; i < topics.length; i++) {
-	    //Do things with things[i]
-	    //$( "#topics" ).append($('<option>' + topics[i] + '</option>'));
 	    $('#topics').append($('<option>', {
 		    value: i,
 		    text: topics[i]
@@ -144,7 +109,11 @@ function loadTopicsDropDown(){
 	}
 	
 	var week = getWeekOfYear();
-	$('#topics option')[week-1].selected = true;
+	
+	if (week > 0)
+		week = week-1;
+	
+	$('#topics option')[week].selected = true;
 }
 
 function getPhotosWithTags(){
@@ -170,5 +139,5 @@ function getWeekOfYear () {
             target.setUTCMonth(0, 1 + ((4 - target.getUTCDay()) + 7) % 7);
 	}
 
-        return Math.ceil((firstThursday - target) /  (7 * 24 * 3600 * 1000));
+        return Math.ceil((firstThursday - target) /  (days_per_cat * 24 * 3600 * 1000));
 }

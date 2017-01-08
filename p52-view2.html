@@ -1,0 +1,176 @@
+<html>
+<head>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/git/jquery.mobile-git.css">
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+<script language ="javascript" >
+
+$(document).ready(function(){
+   loadTopicsDropDown();
+   getPhotosWithTags();
+});
+
+function overImg(imgIdx){
+		
+	$("#popupParis").popup('open');
+		
+	var topicid = $('#topics option:selected').text();	
+	var item = photo_cache[topicid][imgIdx];
+	var imgSrc = "http://farm2.staticflickr.com/" + item.server + "/" + item.id + "_" + item.secret + ".jpg";	
+	var link = "http://www.flickr.com/photos/" + item.owner + "/" + item.id + "/";
+	
+	$("#popup #flickrlink").attr("href", link);
+	$("#popup span.desc").text(item.title);
+	$("#popup img").attr("src", imgSrc);
+	$("#popup").popup('open');	
+}
+
+var photo_cache = {};
+//var images;
+var over = false;
+
+//Cache calls from this client for 15 mins
+setInterval(function(){ photo_cache = {}; }, 900000);
+
+function getPhotos(id){		
+	var topicid = $('#topics option:selected').val();	
+	
+	if (!photo_cache[id]){
+		var arr = photo_cache[id]= [];
+		
+		//Glossop Camera Club Account
+		//var url = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&user_id=139185935@N04&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tags=" + tags;
+		//callURL(url, arr);
+		
+		//Glossop Camera Club Group
+		//var url2 = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&group_id=1959874@N20&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tag_mode=all&tags=p52," + tags;
+		var url2 = "https://api.flickr.com/services/rest/?per_page=52&format=json&method=flickr.photos.search&user_id=" + id + "&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tag_mode=all&tags=p52";
+		callURL(url2, arr);
+	}
+	
+	renderHTML(photo_cache[id]);
+}
+
+function callURL(url, arr){
+	//$.getJSON(url + "&format=json&jsoncallback=?", function(data){
+	$.getJSON(url + "&jsoncallback=?", function(data){
+	//$.getJSON(url, function(data){
+	    //images = data.photos.photo;
+	    //var arrayStart = arr.length;
+	    arr.push.apply(arr, data.photos.photo)	
+	    renderHTML(arr);
+	});
+}
+
+function renderHTML(arr){
+	$( "#gallery ul" ).empty();
+	$.each(arr, function(i,item){
+		var title = item.title;
+		var img = "http://farm2.staticflickr.com/" + item.server + "/" + item.id + "_" + item.secret + "_m.jpg";
+		//var img = item.media.m;
+		var html = '<li><div><a href="javascript:overImg(' + i + ')" data-rel="popup" data-position-to="window"  data-transition="fade"><img src="'+ img +'"  class="popphoto" /></a><span>' + item.title + '</span></div></li>' ;
+		$( "#gallery ul" ).append( $(html ) );			
+	});
+}
+
+function loadTopicsDropDown(){
+	//var topics =  ["Time", "Your Everyday", "Out of Focus", "Shadows", "Morning", "Unbalanced", "Love", "Outtake", "Black & White", "Self-Portrait", "Texture", "Silhouette", "Technology", "Hidden", "Far Away", "Water", "Framed", "Sky", "Laughter", "Nature", "Family", "Light", "Movement", "Below", "Food", "Haze", "Patriotic", "Animal", "Long Exposure", "Colourful", "Music", "Soft", "Hot", "Structure", "Bokeh", "Pattern", "Remember", "Above", "Negative Space", "Reflection", "Button", "Fall", "Together", "Disguise", "Macro", "Chaos", "Thankful", "Hobby", "Cold", "Sleep", "Details", "Joy"];
+	var topics =  ["90986520@N05", "111762682@N02"];
+	
+	for(var i = 0; i < topics.length; i++) {
+	    //Do things with things[i]
+	    //$( "#topics" ).append($('<option>' + topics[i] + '</option>'));
+	    $('#topics').append($('<option>', {
+		    value: i,
+		    text: topics[i]
+		}));
+	}
+}
+
+function getPhotosWithTags(){
+	var tags = $('#topics :selected').text();
+	getPhotos(tags);
+}
+
+</script>
+<style>
+
+#gallery ul {
+	list-style-type: none;
+}
+
+#gallery ul li{
+	float: left;
+	xtext-align: center;
+	border: 0px solid #0000ff;
+	xwidth: 200px;
+}
+
+#gallery ul li div{
+	margin: 10px;
+	border: solid 1px black;
+	padding: 2px;
+}
+
+#gallery ul li div span{
+	display: block;
+	font-size: 10px;
+}
+
+#gallery ul li img{
+	border: 0px solid #ffffff;
+}
+
+#gallery ul li img a:hover img {
+	border: 0px solid #0000ff;
+}
+
+#gallery ul li .desc {
+	text-align: center;
+ 	font-weight: normal;
+ 	margin: 0px;
+	font-size: 10px;
+	display: block;
+}
+
+#gallery ul li .desc a {
+	text-decoration: none;
+}
+
+/*
+#bigImg{
+	position: absolute; 
+	z-index: 1;
+}
+
+#bigImg img{
+	position: absolute; 
+	z-index: 2;
+}
+
+#bigImg span{
+	position: relative; 
+	top: -10px; 
+	z-index: 3;
+}*/
+</style>
+</head>
+<body>
+	<div>
+		<select id="topics" onchange="javascript:getPhotosWithTags();"></select>
+		<br />
+		
+		<div id="gallery">
+			<ul>
+			</ul>
+		</div>	
+		
+		<div data-role="popup" id="popup" data-overlay-theme="b" data-theme="b" data-corners="false">
+		    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+		    <a id="flickrlink" target="_blank"><img class="popphoto" /><span style="display: block" class="desc" /></a>
+		</div>
+	</div>
+	
+</body>
+</html>

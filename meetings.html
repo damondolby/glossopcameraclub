@@ -2,25 +2,16 @@
 <html lang="en">
 <head>
 
-	<meta charset="utf-8">
-	<title>Glossop Camera Club</title>
-	<meta name="description" content="">
-	<meta name="author" content="">
+	<script src="js/utils.js"></script>
+	<script language ="javascript" >getHeader()</script>
 	
-	<meta content="width=device-width; initial-scale=1.0; maximum-scale=1.0;  user-scalable=0;" name="viewport">
-	<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="css/normalize.css">
-	<link rel="stylesheet" href="css/skeleton.css">
-	<link rel="icon" type="image/png" href="images/favicon.png">
-	<link rel="stylesheet" href="style/main.css">
-	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script language ="javascript" >
-	$(function(){
-	    $("[data-load]").each(function(){
-		$(this).load($(this).data("load"), function(){
-		});
-	    });
-	})
+		$(function(){
+		    $("[data-load]").each(function(){
+			$(this).load($(this).data("load"), function(){
+			});
+		    });
+		})
 	</script>
 </head>
 <body>
@@ -30,12 +21,7 @@
 		<img class="bannerimg" src="images/gcc_header.jpg" />
 	</div>
 	<div class="menuholder">
-		<ul id="nav">
-			<li><a href="index.html">Club</a></li>
-			<li><a href="meetings.html">Meetings</a></li>
-			<li><a href="gallery.html">Gallery</a></li>
-			<li><a href="project52.html">Project 52</a></li>
-		</ul>
+		<script language="javascript">getMenu();</script>	
 	</div>
 	<div class="rule"></div>
 	<div class="row">
