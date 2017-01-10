@@ -55,7 +55,7 @@ function getPhotos(tags){
 		callURL(url, arr);
 		
 		//Glossop Camera Club Group
-		var url2 = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&group_id=1959874@N20&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tag_mode=all&tags=" + cat_name + "," + tags;
+		var url2 = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&group_id=1959874@N20&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&extras=owner_name&tag_mode=all&tags=" + cat_name + "," + tags;
 		callURL(url2, arr);
 	}
 		
@@ -93,7 +93,7 @@ function renderHTML(arr){
 		html2 = html2 + '<a href="javascript:overImg(' + i + ')">';
 		html2 = html2 + '<img src="' + img + '" alt="' + title	 + '" width="300" height="200">';
 		html2 = html2 + '</a>';
-		html2 = html2 + '<div class="desc">' + title + '</div>';
+		html2 = html2 + '<div class="desc">' + title + " (by " + item.ownername + ')</div>';
 		html2 = html2 + '</div>';
 		$( "#gallery" ).append( $(html2 ) );
 	});

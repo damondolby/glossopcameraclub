@@ -10,6 +10,7 @@
 			days_per_cat = 14;
 			var topics = ["New", "Window", "Healthy", "Outside", "Small", "Blue", "Black & White", "Empty", "Books", "Looking Down", "Time", "Weather", "Open", "Shadows", "Growing", "On a Table", "Fruit", "Coffee", "Animal", "Evening", "Texture", "Nearby", "Lunchtime", "Words", "I Need This", "Hands"];
 			loadTopicsDropDown(topics);
+			$("#title").text($("#topics option:selected").text());
 			getPhotosWithTags();   
 			$("#popup").hide();
 		});
@@ -28,7 +29,7 @@
 	<div class="rule"></div>
     <div class="row">
       <div  style="margin-top: 5%">
-        <h4>Glossop Camera Club</h4>
+        <h4>2017 Project (P26) - Current topic: <span id="title"></span></h4>
 	<p>GCC members are welcome to partake in this project during 2017 (1 topic every 2 weeks - see drop down)
 	<br /> Feel free to start it any time (add to GCC Flickr <a href="https://www.flickr.com/groups/1959874@N20/" target="_about">Group</a>, add tags: "p26" and applicable topic.</p>  
       </div>      
