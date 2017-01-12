@@ -39,27 +39,51 @@ var current_cache;
 //Cache calls from this client for 15 mins
 setInterval(function(){ photo_cache = {}; }, 900000);
 
-function getPhotos(tags){		
-	var topicid = $('#topics option:selected').val();	
-	current_cache = topicid;
+function getPhotos(calls, cacheKey){		
+	//var topicid = $('#topics option:selected').val();	
+	current_cache = cacheKey;
 	
-	if (!photo_cache[topicid]){
-		var arr = photo_cache[topicid]= [];
+	if (!photo_cache[cacheKey]){
+		var arr = photo_cache[cacheKey]= [];
 		//images = [];
 		
 		//Info
 		//https://www.flickr.com/services/api/flickr.photos.search.html
 		
 		//Glossop Camera Club Account
-		var url = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&user_id=139185935@N04&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tags=" + tags;
+		//var url = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&user_id=139185935@N04&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tags=" + tags;
+		/*var url = constructFlickrRestURL(20, null, '139185935@N04', tags);
 		callURL(url, arr);
 		
 		//Glossop Camera Club Group
-		var url2 = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&group_id=1959874@N20&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&extras=owner_name&tag_mode=all&tags=" + cat_name + "," + tags;
-		callURL(url2, arr);
-	}
+		//var url2 = "https://api.flickr.com/services/rest/?per_page=20&format=json&method=flickr.photos.search&group_id=1959874@N20&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&extras=owner_name&tag_mode=all&tags=" + cat_name + "," + tags;
+		var url2 = constructFlickrRestURL(20, '1959874@N20', null, cat_name + "," + tags);
+		callURL(url2, arr);*/
 		
-	//renderHTML(photo_cache[topicid]);
+		$.each(calls, function(i,item){
+			callURL(item, arr);
+		});
+	}
+	else
+		renderHTML(photo_cache[cacheKey]);
+}
+
+function constructFlickrRestURL(pages, groupID, userID, tags){
+	var url = "https://api.flickr.com/services/rest/?format=json&method=flickr.photos.search&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&extras=owner_name";
+	
+	if (pages)
+		url = url + "&per_page=" + pages;
+	
+	if (groupID)
+		url = url + "&group_id=" + groupID;
+	
+	if (userID)
+		url = url + "&user_id=" + userID;
+	
+	if (tags)
+		url = url + "&tag_mode=all&tags=" + tags;
+	
+	return url;
 }
 
 function getRecentClubPhotos(noOfPics){
@@ -85,26 +109,51 @@ function renderHTML(arr){
 		$( "#gallery" ).append( $("<div class='regMsg'>No photos yet!</div>" ) );
 	}
 	
+	var perRow = 4;
+	
 	$.each(arr, function(i,item){
+		
+		if (i % perRow == 0){
+			
+			if (i > 0){
+				$( "#gallery" ).append( $('</div>' ) );
+			}
+			
+			$( "#gallery" ).append( $('<div class="row">' ) );
+			
+		}
+		
 		var title = item.title;
 		var img = "http://farm2.staticflickr.com/" + item.server + "/" + item.id + "_" + item.secret + "_m.jpg";
 		
 		var html2 = '<div class="img">';
 		html2 = html2 + '<a href="javascript:overImg(' + i + ')">';
-		html2 = html2 + '<img src="' + img + '" alt="' + title	 + '" width="300" height="200">';
+		html2 = html2 + '<img src="' + img + '" alt="' + title	 + '">';
 		html2 = html2 + '</a>';
 		html2 = html2 + '<div class="desc">' + title + " (by " + item.ownername + ')</div>';
 		html2 = html2 + '</div>';
 		$( "#gallery" ).append( $(html2 ) );
 	});
+	
+	$( "#gallery" ).append( $('</div>' ) );
 }
 
 function loadTopicsDropDown(topics){
 	
 	for(var i = 0; i < topics.length; i++) {
+		
+		if (typeof topics[i] === 'object'){
+			var id = topics[i].id;
+			var text = topics[i].name;
+		}
+		else {
+			var id = i;
+			var text = topics[i];
+		}
+		
 	    $('#topics').append($('<option>', {
-		    value: i,
-		    text: topics[i]
+		    value: id,
+		    text: text
 		}));
 	}
 	
@@ -122,7 +171,13 @@ function getPhotosWithTags(){
 	tags = tags.replace("&", ""); 
         tags = tags.replace("of", ""); 
 	//console.log(tags);
-	getPhotos(tags);
+	
+	var gccUser = constructFlickrRestURL(20, null, '139185935@N04', tags);
+	var gccGroup = constructFlickrRestURL(20, '1959874@N20', null, cat_name + "," + tags);
+	
+	var calls = [gccUser, gccGroup];
+	var cacheKey = $('#topics option:selected').val();
+	getPhotos(calls, cacheKey);
 }
 
 function getWeekOfYear () {

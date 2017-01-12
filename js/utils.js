@@ -2,9 +2,10 @@ function getMenu(){
 	document.write('<ul id="nav">');
 	document.write('<li><a href="index.html">Club</a><span>|</span></li>');
 	document.write('<li><a href="meetings.html">Meetings</a><span>|</span></li>');
-	document.write('<li><a href="gallery.html">Gallery</a><span>|</span></li>');
+	document.write('<li><a href="members.html">Members</a><span>|</span></li>');
 	document.write('<li><a href="project_26_2017.html">P26 (2017)</a><span>|</span></li>');
-	document.write('<li><a href="project52.html">P52 (2016)</a></li>');
+	document.write('<li><a href="project52.html">P52 (2016)</a><span>|</span></li>');
+	document.write('<li><a href="gallery.html">Club Pics</a></li>');
 	document.write('<li class="social"><a href="https://www.facebook.com/groups/Glossopcameraclub/" target="_blank"><img src="images/facebook.png" width="30px" height="30px" /></a></li>');
 	document.write('<li class="social"><a href="https://twitter.com/GlsspCameraClub" target="_blank"><img src="images/twitter.png" width="30px" height="30px" /></a></li>');
 	document.write('<li class="social"><a href="https://www.flickr.com/groups/1959874@N20/" target="_blank"><img src="images/flickr.png" width="30px" height="30px" /></a></li>');

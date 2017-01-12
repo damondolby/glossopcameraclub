@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>	
+	<script src="js/utils.js"></script>
+	<script language ="javascript" >getHeader()</script>
+
+	<script language ="javascript" >
+		$(document).ready(function(){
+			cat_name = 'p26';
+			days_per_cat = 14;
+			//var topics = ["New", "Window", "Healthy", "Outside", "Small", "Blue", "Black & White", "Empty", "Books", "Looking Down", "Time", "Weather", "Open", "Shadows", "Growing", "On a Table", "Fruit", "Coffee", "Animal", "Evening", "Texture", "Nearby", "Lunchtime", "Words", "I Need This", "Hands"];
+			var options = [{id: '-1', name: 'Select...'},{id: '90986520@N05', name: 'choitowers'},{id: '9539139@N07', name: 'starsmum'},
+						{id: '150878619@N08', name: 'martinford2'},{id: '111762682@N02', name: 'johnfriend28'},
+						{id: '134896788@N03', name: 'melthenipper'},{id: '88453105@N00', name: 'keithb_b'}];
+			
+			loadTopicsDropDown(options);
+			$("#title").text($("#topics option:selected").text());
+			$("#popup").hide();
+		});
+		
+		function dropDownChange(){
+			var userId = $('#topics :selected').val();
+			
+			if (userId == '-1'){
+				$('#msg').text('Please select a user');
+				return;
+			}
+			
+			var cacheKey = userId;
+			var tags;			
+			
+			if ($('#projects :selected').val() != "-1"){
+				tags = $('#projects :selected').val();
+				cacheKey = cacheKey + "#" + tags;
+			}		
+			
+			var gccUser = constructFlickrRestURL(50, null, userId, tags);
+	
+			var calls = [gccUser];
+			
+			getPhotos(calls,cacheKey);
+		}
+
+	</script>
+</head>
+<body>
+
+  <div class="container">
+	<div id="banner">
+		<img class="bannerimg" src="images/gcc_header.jpg" />
+	</div>
+	<div class="menuholder">
+		<script language="javascript">getMenu();</script>	
+	</div>
+	<div class="rule"></div>
+    <div class="row">
+      <div  style="margin-top: 5%">
+        <h4>2017 Project (P26) - Current topic: <span id="title"></span></h4>
+	<p>Photos from GCC members - if you would like your photos displayed on this page then please ask!</p>  
+      </div>      
+    </div>
+    <div>
+		Members: <select id="topics" onchange="javascript:dropDownChange();"></select>&nbsp;
+		Projects: <select id="projects" onchange="javascript:dropDownChange();">
+			<option value="-1">Select...</option>
+			<option value="p26">Project 26 (2017)</option>
+			<option value="p52">Project 52 (2016)</option>
+		</select>
+		<br />		
+		<div id="gallery">
+		</div>
+		<div id="msg" class="regMsg"></div>
+		<div  id="popup">
+		    <!--a href="javascript:closePopUp();" class="close">X</a-->
+		    <a id="flickrlink" target="_blank"><img class="popphoto" /><span style="display: block" class="desc" /></a>
+		</div>
+      </div>
+  </div>
+</body>
+</html>

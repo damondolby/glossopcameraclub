@@ -44,7 +44,8 @@ div.img {
     border: 1px solid #ccc;
     float: left;
     width: 180px;
-	xheight: 400px;
+	padding: 8px;
+	height: 400px;
 }
 
 div.img:hover {
