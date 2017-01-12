@@ -10,7 +10,7 @@
 			days_per_cat = 14;
 			//var topics = ["New", "Window", "Healthy", "Outside", "Small", "Blue", "Black & White", "Empty", "Books", "Looking Down", "Time", "Weather", "Open", "Shadows", "Growing", "On a Table", "Fruit", "Coffee", "Animal", "Evening", "Texture", "Nearby", "Lunchtime", "Words", "I Need This", "Hands"];
 			var options = [{id: '-1', name: 'Select...'},{id: '90986520@N05', name: 'choitowers'},{id: '9539139@N07', name: 'starsmum'},
-						{id: '150878619@N08', name: 'martinford2'},{id: '111762682@N02', name: 'johnfriend28'},
+						{id: '150878619@N08', name: 'martinford2'},{id: '111762682@N02', name: 'johnfriend28'},{id: '49286616@N08', name: 'Vital Sparks'},
 						{id: '134896788@N03', name: 'melthenipper'},{id: '88453105@N00', name: 'keithb_b'}];
 			
 			loadTopicsDropDown(options);
@@ -19,6 +19,7 @@
 		});
 		
 		function dropDownChange(){
+			$('#msg').text('');
 			var userId = $('#topics :selected').val();
 			
 			if (userId == '-1'){
