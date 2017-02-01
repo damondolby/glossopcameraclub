@@ -14,7 +14,8 @@
 						{id: '134896788@N03', name: 'melthenipper'},{id: '88453105@N00', name: 'keithb_b'},{id: '16144408@N08', name: 'derek.melville'}];
 			
 			loadTopicsDropDown(options);
-			$("#title").text($("#topics option:selected").text());
+			//$("#title").text($("#topics option:selected").text());
+			$('#topics option')[0].selected = true;
 			$("#popup").hide();
 		});
 		
