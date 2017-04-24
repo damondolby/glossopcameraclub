@@ -1,9 +1,67 @@
 
-var cat_name, days_per_cat;
+$(document).keydown(function(e) {
+	
+    if (img_idx <= -1)
+	return;
+    if(e.keyCode == 37){
+	     prevImg();
+    }
+    else if(e.keyCode == 39){
+	     nextImg();
+    }
+});
 
-function overImg(imgIdx){
-		
-	var item = photo_cache[current_cache][imgIdx];
+var cat_name, days_per_cat;
+var img_idx = -1;
+var popup_initialised = false;
+
+function init_popup(){
+	popup_initialised = true;
+	$( "#popup" ).dialog({		    
+		    
+	      autoOpen: false,			
+		modal: true,
+		resizable: false,
+		height: $(window).height(),
+		width: $(window).width()
+	    });
+	    
+	    $('#popup').on('dialogclose', function(event) {
+		img_idx = -1;
+	 });
+}
+
+function showPopUp(idx){
+	img_idx = idx;	
+
+	if (!popup_initialised){
+		init_popup();
+	}
+	    
+	$("#popup").dialog('open');
+	showImg();
+}
+
+function prevImg(){
+	img_idx = img_idx - 1;
+	if (img_idx < 0)
+		img_idx = photo_cache[current_cache].length-1;
+	
+	showImg();
+}
+
+function nextImg(){
+	img_idx = img_idx + 1;
+	
+	if (img_idx > photo_cache[current_cache].length-1)
+		img_idx = 0;
+	
+	showImg();
+}
+
+function showImg(){		
+	
+	var item = photo_cache[current_cache][img_idx];
 	var imgSrc = "http://farm2.staticflickr.com/" + item.server + "/" + item.id + "_" + item.secret + ".jpg";	
 	var link = "http://www.flickr.com/photos/" + item.owner + "/" + item.id + "/";
 	
@@ -11,25 +69,15 @@ function overImg(imgIdx){
 	$("#popup span.desc").text(item.title);
 	$("#popup img").attr("src", imgSrc);
 	
-	    $( "#popup" ).dialog({
-		    
-		      //autoOpen: false,
-		      show: {
-			effect: "blind",
-			duration: 1000
-		      },		      
-		
-		modal: true,
-		resizable: false,
-		height: 600,
-		width: 600
-	    });
+	    
 }
 
+/*
 function closePopUp(){
 	$("#popup").hide();
+	img_idx = -1;
 	//$("body").css("background-color", "white");
-}
+}*/
 
 var photo_cache = {};
 //var images;
@@ -127,7 +175,7 @@ function renderHTML(arr){
 		var img = "http://farm2.staticflickr.com/" + item.server + "/" + item.id + "_" + item.secret + "_m.jpg";
 		
 		var html2 = '<div class="img">';
-		html2 = html2 + '<a href="javascript:overImg(' + i + ')">';
+		html2 = html2 + '<a href="javascript:showPopUp(' + i + ')">';
 		html2 = html2 + '<img src="' + img + '" alt="' + title	 + '">';
 		html2 = html2 + '</a>';
 		html2 = html2 + '<div class="desc">' + title + " (by " + item.ownername + ')</div>';
