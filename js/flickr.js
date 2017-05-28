@@ -220,7 +220,7 @@ function getPhotosWithTags(){
         tags = tags.replace("of", ""); 
 	//console.log(tags);
 	
-	var gccUser = constructFlickrRestURL(20, null, '139185935@N04', tags);
+	var gccUser = constructFlickrRestURL(20, null, '139185935@N04', cat_name + "," +tags);
 	var gccGroup = constructFlickrRestURL(20, '1959874@N20', null, cat_name + "," + tags);
 	
 	var calls = [gccUser, gccGroup];
