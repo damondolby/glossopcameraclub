@@ -218,6 +218,7 @@ function getPhotosWithTags(){
         tags = tags.replace(" ", ","); 
 	tags = tags.replace("&", ""); 
         tags = tags.replace("of", ""); 
+	tags = tags.replace(",a ", ", ");
 	//console.log(tags);
 	
 	var gccUser = constructFlickrRestURL(20, null, '139185935@N04', cat_name + "," +tags);
