@@ -215,10 +215,12 @@ function loadTopicsDropDown(topics){
 
 function getPhotosWithTags(){
 	var tags = $('#topics :selected').text();
-        tags = tags.replace(" ", ","); 
+        //tags = tags.replace(" ", ","); 
+		tags = tags.replace(/ /g, ",");
 	tags = tags.replace("&", ""); 
-        tags = tags.replace("of", ""); 
+        tags = tags.replace(",of ", ", "); 
 	tags = tags.replace(",a ", ", ");
+	//tags = tags.replace("I,", ",");
 	//console.log(tags);
 	
 	var gccUser = constructFlickrRestURL(20, null, '139185935@N04', cat_name + "," +tags);
