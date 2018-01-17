@@ -3,6 +3,7 @@ function getMenu(){
 	document.write('<li><a href="index.html">Club</a><span>|</span></li>');
 	document.write('<li><a href="meetings.html">Meetings</a><span>|</span></li>');
 	document.write('<li><a href="members.html">Members</a><span>|</span></li>');
+		document.write('<li><a href="p2018.html">P2018</a><span>|</span></li>');
 	document.write('<li><a href="project_26_2017.html">P26 (2017)</a><span>|</span></li>');
 	document.write('<li><a href="project52.html">P52 (2016)</a><span>|</span></li>');
 	document.write('<li><a href="gallery.html">Club Pics</a></li>');

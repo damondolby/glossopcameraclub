@@ -135,7 +135,7 @@ function constructFlickrRestURL(pages, groupID, userID, tags){
 }
 
 function getRecentClubPhotos(noOfPics){
-	var url = "https://api.flickr.com/services/rest/?per_page=" + noOfPics + "&format=json&method=flickr.photos.search&group_id=1959874@N20&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tag_mode=all"
+	var url = "https://api.flickr.com/services/rest/?per_page=" + noOfPics + "&format=json&method=flickr.photos.search&group_id=1959874@N20&sort=date-taken-desc&api_key=b9b545d8e702dd0aaefe231a06b1ce46&tag_mode=all&extras=owner_name"
 	current_cache = url;
 	if (!photo_cache[url]){
 		var arr = photo_cache[url]= [];

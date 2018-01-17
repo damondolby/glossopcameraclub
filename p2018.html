@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>	
+	<script src="js/utils.js"></script>
+	<script language ="javascript" >getHeader()</script>
+
+	<script language ="javascript" >
+		$(document).ready(function(){
+			cat_name = 'p2018';
+			days_per_cat = 28;
+			var topics = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M"];
+			loadTopicsDropDown(topics);
+			$("#title").text($("#topics option:selected").text());
+			getPhotosWithTags();   
+			$("#popup").hide();
+		});
+
+	</script>
+</head>
+<body>
+
+  <div class="container">
+	<div id="banner">
+		<img class="bannerimg" src="images/gcc_header.jpg" />
+	</div>
+	<div class="menuholder">
+		<script language="javascript">getMenu();</script>	
+	</div>
+	<div class="rule"></div>
+    <div class="row">
+      <div  style="margin-top: 5%">
+        <h4>2018 Project (P2018) - Current topic: <span id="title"></span></h4>
+	<p>GCC members are welcome to partake in this project during 2018 (1 topic every 4 weeks - see drop down)
+	<br /> Feel free to start it any time (add to GCC Flickr <a href="https://www.flickr.com/groups/1959874@N20/" target="_about">Group</a>, add tags: "p2018" and applicable topic (e.g. A).</p>  
+      </div>      
+    </div>
+    <div>
+		<select id="topics" onchange="javascript:getPhotosWithTags();"></select>
+		<br />		
+		<div id="gallery">
+		</div>
+		
+		<div  id="popup">
+		    <a href="javascript:prevImg()"><<</a>
+		    <a id="flickrlink" target="_blank"><img class="popphoto" /><a href="javascript:nextImg()">>></a><span style="display: block" class="desc" /></a>
+		    
+		</div>
+      </div>
+  </div>
+</body>
+</html>
